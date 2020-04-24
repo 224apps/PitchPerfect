@@ -1,18 +1,17 @@
- //
- //  PlaySoundsViewController+Audio.swift
- //  PitchPerfect
- //
- //  Created by Abdoulaye Diallo on 3/28/20.
- //  Copyright © 2020 Abdoulaye Diallo. All rights reserved.
- //
-
+//
+//  PlaySoundsViewController+Audio.swift
+//  Audio Editor
+//
+//  Created by David Ilenwabor on 6/2/18.
+//  Copyright © 2018 DJTech. All rights reserved.
+//
 
 import UIKit
 import AVFoundation
 
 // MARK: - PlaySoundsViewController: AVAudioPlayerDelegate
 
-extension PlaySoundsViewController: AVAudioPlayerDelegate {
+extension SoundsPlayingController {
     
     // MARK: Alerts
     
@@ -101,7 +100,7 @@ extension PlaySoundsViewController: AVAudioPlayerDelegate {
             }
             
             // schedule a stop timer for when audio finishes playing
-            self.stopTimer = Timer(timeInterval: delayInSeconds, target: self, selector: #selector(PlaySoundsViewController.stopAudio), userInfo: nil, repeats: false)
+            self.stopTimer = Timer(timeInterval: delayInSeconds, target: self, selector: #selector(SoundsPlayingController.stopAudio), userInfo: nil, repeats: false)
             RunLoop.main.add(self.stopTimer!, forMode: RunLoop.Mode.default)
         }
         
@@ -148,24 +147,24 @@ extension PlaySoundsViewController: AVAudioPlayerDelegate {
         switch(playState) {
         case .playing:
             setPlayButtonsEnabled(false)
-            stopButton.isEnabled = true
+            stopPlaybackButton.isEnabled = true
         case .notPlaying:
             setPlayButtonsEnabled(true)
-            stopButton.isEnabled = false
+            stopPlaybackButton.isEnabled = false
         }
     }
     
     func setPlayButtonsEnabled(_ enabled: Bool) {
-        snailButton.isEnabled = enabled
-        chipmunkButton.isEnabled = enabled
-        rabbitButton.isEnabled = enabled
-        vaderButton.isEnabled = enabled
+        slowButton.isEnabled = enabled
+        highPitchButton.isEnabled = enabled
+        fastButton.isEnabled = enabled
+        lowPitchButton.isEnabled = enabled
         echoButton.isEnabled = enabled
         reverbButton.isEnabled = enabled
     }
 
     func showAlert(_ title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle:  .alert)
         alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
